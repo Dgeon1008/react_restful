@@ -1,11 +1,12 @@
 import logo from './logo.svg';
 import './App.css';
-import DeleteContainer from './rest/member/DeleteContainer';
+import { RouterProvider } from 'react-router-dom';
+import router from './router/router';
 
 function App() {
   return (
     <>
-      <DeleteContainer />
+      <RouterProvider router={router} />
     </>
   );
 }

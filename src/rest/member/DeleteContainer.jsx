@@ -1,31 +1,32 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
-
+// 회원탈퇴
 const DeleteContainer = () => {
-
-  const {register, handleSubmit, getValues, formState: { isSubmitting, isSubmitted, errors }} = useForm({mode:"onChange"})
+  // const navigate = useNavigate();
+  const id = 7;
+  
+  const remove = async () => {
+    if(window.confirm("정말로 탈퇴하시겠어요?")){
+      await fetch(`http://localhost:10000/members/api/remove/${id}`, {
+        method : "DELETE"
+      })
+      .then((res) => {
+        if(!res.ok) throw new Error("회원 탈퇴 중 알 수 없는 오류 발생")
+          // 페이지 이동
+        // navigate("/")
+        window.location.href = "/"
+      })
+      .catch("알 수 없는 오류")
+    }else {
+      alert("휴 제가 더 잘해볼게요..😥")
+    }
+  }
 
   return (
-    <form onSubmit={handleSubmit(async (data) => {
-
-      console.log(data)
-      const id = 1;
-
-      fetch(`http://localhost:10000/members/api/remove/${id}`, {
-        method : "DELETE",
-        headers : {
-          "Content-Type" : "application/json"
-        },
-        body : JSON.stringify(id)
-      })
-
-
-    })}>
-
-    <button disabled={isSubmitting}>회원 탈퇴</button>
-    </form>
-
+    <div>
+      <button onClick={remove}>회원탈퇴</button>
+    </div>
   );
 };
 

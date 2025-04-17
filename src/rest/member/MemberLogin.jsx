@@ -1,57 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 
-const UpdateContainer = () => {
+// react-hook-form
+const MemberLogin = () => {
 
-  // 회원 정보
-  const id = 7;
-  const [member, setMember] = useState({})
-  const [isUpdate, setIsUpdate] = useState(false);
-
-  // useForm
-  const {register, handleSubmit, getValues, reset, formState: { isSubmitting, isSubmitted, errors }} = useForm({mode:"onChange"})
+  const {register, handleSubmit, getValues, formState: { isSubmitting, isSubmitted, errors }} = useForm({mode:"onChange"})
   // 이메일 형식을 맞춘 정규식
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   // 소문자, 특수문자, 숫자를 포함한 8자리 이상의 정규식
   const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[!@#])[\da-zA-Z!@#]{8,}$/;
 
-  useEffect(() => {
-    const getMember = async () => {
-      const response = await fetch(`http://localhost:10000/members/api/member/${id}`, {
-        method : "GET",
-      })
-      const user = response.json()
-      return user
-    }
-
-    getMember().then((member) => {
-      const {memberEmail, memberName} = member;
-      // // 초기값
-      reset({
-        memberEmail,
-        memberName
-      })
-      setMember(member)
-    }).catch(console.error)
-
-  }, [isUpdate])
-
   return (
     <form onSubmit={handleSubmit(async (data) => {
-      
-      const {passwordConfirm, ...others} = data;
-      const memberVO = {id, ...others}
 
-      await fetch("http://localhost:10000/members/api/modify", {
-        method : "PUT",
+      console.log(data)
+      const {hobbies, passwordConfirm, ...memberVO} = data;
+      // const {memberEmail, memberName, memberPassword } = data;
+      // const memberVO = {
+      //   memberEmail,
+      //   memberName,
+      //   memberPassword
+      // }
+      console.log(memberVO)
+
+      fetch("http://localhost:10000/members/api/join", {
+        method : "POST",
         headers : {
           "Content-Type" : "application/json"
         },
         body : JSON.stringify(memberVO)
-      }).then((res) => {
-        if(!res.ok) throw new Error(`member modify response 에러`)
-        setIsUpdate(!isUpdate)
-      }).catch(console.error)
+      })
+
 
     })}>
       
@@ -126,9 +105,18 @@ const UpdateContainer = () => {
         )}
       </label>
 
-      <button disabled={isSubmitting}>정보 수정</button>
+      {/* 체크박스 */}
+      <p>취미</p>
+      <label>
+        <span>축구</span><input name="hobby" type="checkbox" {...register("hobbies")}/>
+      </label>
+      <label>
+        <span>야구</span><input name="hobby" type="checkbox" {...register("hobbies")}/>
+      </label>
+
+      <button disabled={isSubmitting}>회원가입</button>
     </form>
   );
 };
 
-export default UpdateContainer;
+export default JoinContainer;
