@@ -30,8 +30,8 @@ const PostRead = () => {
     <div>
       <p>제목 : {postTitle}</p>
       <p>내용 : {postContent}</p>
-      <Link to={`/update/${id}`}><button>수정</button></Link>
-      <Link to={`/remove/${id}`}><button>삭제</button></Link>
+      <Link to={`/post/update/${id}`}><button>수정</button></Link>
+      <Link to={`/post/remove/${id}`}><button>삭제</button></Link>
     </div>
   );
 };

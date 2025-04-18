@@ -78,7 +78,7 @@ const PostUpdate = () => {
       </label>
       <div>
         <button disabled={isSubmitting}>정보 수정</button>
-        <Link to={`/read/${id}`}><button>뒤로 가기</button></Link>
+        <Link to={`/post/read/${id}`}><button>뒤로 가기</button></Link>
       </div>
 
     </form>      

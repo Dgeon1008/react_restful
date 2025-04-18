@@ -13,7 +13,7 @@ const PostDelete = () => {
       .then((res) => {
         if(!res.ok) throw new Error("게시글 삭제 중 알 수 없는 오류 발생")
         // 메인으로
-        window.location.href = "/"
+        window.location.href = "/post"
       })
       .catch("알 수 없는 오류")
     }
